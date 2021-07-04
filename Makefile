@@ -15,7 +15,7 @@ endif
 CC_FLAGS := ${CC_FLAGS} -I/opt/webos-sdk-x86_64/1.0.g/sysroots/armv7a-neon-webos-linux-gnueabi/usr/include --sysroot=/opt/webos-sdk-x86_64/1.0.g/sysroots/armv7a-neon-webos-linux-gnueabi
 endif
 ifndef PROGS
-PROGS := whoami arch
+PROGS := whoami arch ls
 endif
 make:
 	mkdir -p bin

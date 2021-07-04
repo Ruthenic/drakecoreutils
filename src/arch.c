@@ -5,16 +5,13 @@
 #include <sys/utsname.h>
 
 /*
-whoami - prints the working user's username (unless --uid is specified)
+arch - prints the current machine's architecture
 Available arguments:
 	--help: show this help message
 	--version: show the version of the program (WIP)
-	--uid: print the users numeric UID, instead of username
 */
 
 int main(int argc, char** argv) {
-	uid_t userid = geteuid();
-	char * username = getpwuid(userid)->pw_name;
 	if (argc == 1) {
 		struct utsname e;
 		uname(&e);
