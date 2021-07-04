@@ -34,7 +34,7 @@ int cmp(const void *a, const void *b){
 bool isRegularFile(const char *path)
 {
     struct stat path_stat;
-    lstat(path, &path_stat);
+    stat(path, &path_stat);
     return S_ISREG(path_stat.st_mode);
 }
 
@@ -101,39 +101,46 @@ int main(int argc, char** argv) {
 		char* dirname = dp->d_name;
 		if (!startsWithChar(dirname, '.') || showdot == true) {
 			if (colour == false) {
-				len += 1 + strlen(dirname) + strlen(" ");
+				len += 1 + strlen(dirname) + strlen("§");
 				out = (char*) realloc(out, len);
 				strcat(out, dirname);
-				strcat(out, " ");
+				strcat(out, "§");
 			} else {
-				if (isRegularFile(dirname) == true) {
-					len += 1 + strlen(dirname) + strlen(" ");
-					out = (char*) realloc(out, len);
-					strcat(out, dirname);
-					strcat(out, " ");
-				} else {
-					len += 1 + strlen(dirname) + strlen(" ") + strlen(BLU) + strlen(reset);
-					out = (char*) realloc(out, len);
-					strcat(out, BLU);
-					strcat(out, dirname);
-					strcat(out, reset);
-					strcat(out, " ");
-				}
+				len += 1 + strlen(dirname) + strlen("§");
+				out = (char*) realloc(out, len);
+				strcat(out, dirname);
+				strcat(out, "§");
 			}
 		}
 	} while ((dp = readdir(dirp)) != NULL);
 	char *word, *words[strlen(out)/2+1];
 	int i,n;
 	i=0;
-	word = strtok(out, " ");
+	word = strtok(out, "§");
 	while (word != NULL) {
 		words[i++] = word;
-		word = strtok(NULL, " ");
+		word = strtok(NULL, "§");
 	}
 	n = i;
 	qsort(words, n, sizeof(*words), cmp);
+	char oldwd[PATH_MAX];
+	strcpy(oldwd, wd);
 	for (i = 0; i < n; i++) {
-		printf(words[i]);
+		if (colour == false) {
+			printf(words[i]);
+		} else {
+			strcpy(wd, oldwd);
+			strcat(wd, "/");
+			strcat(wd, words[i]);
+			//printf(wd);
+			if (isRegularFile(wd) == false) {
+				printf(BLU);
+				printf(words[i]);
+				printf(reset);
+			} else {
+				printf(words[i]);
+			}
+		}
 		printf(" ");
 	}
 	return 0;
