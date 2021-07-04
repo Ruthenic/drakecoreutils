@@ -6,6 +6,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include "ansi-colour.h"
 
 /*
 ls - print all files and directories in working directory
@@ -24,6 +28,19 @@ bool startsWithChar(const char *pre, const char str) {
 
 int cmp(const void *a, const void *b){
     return strcmp(*(const char **)a, *(const char **)b);
+}
+
+//https://stackoverflow.com/a/4553076
+bool isRegularFile(const char *path)
+{
+    struct stat path_stat;
+    lstat(path, &path_stat);
+    return S_ISREG(path_stat.st_mode);
+}
+
+int printBool(bool cond) {
+	printf("%s\n", cond ? "true" : "false");
+	return 0;
 }
 
 //lots o' code ~~stolen~~ borrowed from https://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html
@@ -83,10 +100,26 @@ int main(int argc, char** argv) {
 	do {
 		char* dirname = dp->d_name;
 		if (!startsWithChar(dirname, '.') || showdot == true) {
-			len += 1 + strlen(dirname) + strlen(" ");
-			out = (char*) realloc(out, len);
-			strcat(out, dirname);
-			strcat(out, " ");
+			if (colour == false) {
+				len += 1 + strlen(dirname) + strlen(" ");
+				out = (char*) realloc(out, len);
+				strcat(out, dirname);
+				strcat(out, " ");
+			} else {
+				if (isRegularFile(dirname) == true) {
+					len += 1 + strlen(dirname) + strlen(" ");
+					out = (char*) realloc(out, len);
+					strcat(out, dirname);
+					strcat(out, " ");
+				} else {
+					len += 1 + strlen(dirname) + strlen(" ") + strlen(BLU) + strlen(reset);
+					out = (char*) realloc(out, len);
+					strcat(out, BLU);
+					strcat(out, dirname);
+					strcat(out, reset);
+					strcat(out, " ");
+				}
+			}
 		}
 	} while ((dp = readdir(dirp)) != NULL);
 	char *word, *words[strlen(out)/2+1];
