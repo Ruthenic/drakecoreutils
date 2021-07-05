@@ -45,9 +45,11 @@ int printBool(bool cond) {
 
 //lots o' code ~~stolen~~ borrowed from https://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html
 int main(int argc, char** argv) {
-	bool colour = false;
-	bool showdot = false;
+	//define default options
+	bool colour   = false;
+	bool showdot  = false;
 	bool specpath = false;
+	bool columns  = false;
 	char *thatpath;
 	for (int i = 1; i < argc; i++) {
 		char* arg = argv[i];
@@ -71,6 +73,8 @@ int main(int argc, char** argv) {
 			colour = true;
 		} else if (!strcmp(arg, "-a") || !strcmp(arg, "--all")) {
 			showdot = true;
+		} else if (!strcmp(arg, "-C") || !strcmp(arg, "--columns")) {
+			columns = true;
 		} else {
 			//TODO: interpret absolute *and* relative paths. can't be that hard, right?
 			specpath = true;
@@ -93,7 +97,7 @@ int main(int argc, char** argv) {
 	struct dirent *dp;
 	dirp = opendir(wd);
 	if (dirp == NULL) {
-		printf("couldn't open %s\n", wd);
+		printf("couldn't open '%s'\n", wd);
 		return 1;
 	}
 	int len = sizeof(char);
@@ -122,6 +126,11 @@ int main(int argc, char** argv) {
 	qsort(words, n, sizeof(*words), cmp);
 	char oldwd[PATH_MAX];
 	strcpy(oldwd, wd);
+	int maxLen = 0;
+	if (columns == false) {
+		maxLen = 180;
+	}
+	int currLen = 0;
 	for (i = 0; i < n; i++) {
 		if (colour == false) {
 			printf(words[i]);
@@ -139,6 +148,11 @@ int main(int argc, char** argv) {
 			}
 		}
 		printf(" ");
+		currLen += strlen(words[i]);
+		if (currLen >= maxLen) {
+			printf("\n");
+			currLen = 0;
+		}
 	}
 	free(out);
 	return 0;
