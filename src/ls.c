@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
 			printf("6.9.69\n");
 			return 0;
 		} else if (!strcmp(arg, "--color") || !strcmp(arg, "--colour")) {
-			colour = true;
+			colour  = true;
 		} else if (!strcmp(arg, "-a") || !strcmp(arg, "--all")) {
 			showdot = true;
 		} else if (!strcmp(arg, "-C") || !strcmp(arg, "--columns")) {
@@ -82,13 +82,10 @@ int main(int argc, char** argv) {
 			thatpath = arg;
 		}
 	}
-	//printf("%s\n", specpath ? "true" : "false");
 	char wd[PATH_MAX];
 	if (specpath == false) {
-		//printf("e\n");
 		getcwd(wd, sizeof(wd));
 	} else if (specpath == true) {
-		//printf("f\n");
 		char *e = realpath(thatpath, NULL);
 		strcpy(wd, e);
 		free(e);
