@@ -85,6 +85,7 @@ int main(int argc, char** argv) {
 	} else if (specpath == true) {
 		//printf("f\n");
 		strcpy(wd, realpath(thatpath, NULL));
+		free(thatpath);
 	}
 	//printf(wd);
 	DIR* dirp;
@@ -94,25 +95,20 @@ int main(int argc, char** argv) {
 		printf("couldn't open %s\n", wd);
 		return 1;
 	}
-	int len = 2;
-	char* out = (char*) malloc(len);
+	int len = sizeof(char);
+	char *out = malloc(len);
+	*out = NULL;
 	dp = readdir(dirp);
 	do {
 		char* dirname = dp->d_name;
 		if (!startsWithChar(dirname, '.') || showdot == true) {
-			if (colour == false) {
-				len += 1 + strlen(dirname) + strlen("§");
-				out = (char*) realloc(out, len);
-				strcat(out, dirname);
-				strcat(out, "§");
-			} else {
-				len += 1 + strlen(dirname) + strlen("§");
-				out = (char*) realloc(out, len);
-				strcat(out, dirname);
-				strcat(out, "§");
-			}
+			len += 1 + strlen(dirname) + strlen("§");
+			out = realloc(out, len);
+			strcat(out, dirname);
+			strcat(out, "§");
 		}
 	} while ((dp = readdir(dirp)) != NULL);
+	free(dirp);
 	char *word, *words[strlen(out)/2+1];
 	int i,n;
 	i=0;
@@ -143,5 +139,6 @@ int main(int argc, char** argv) {
 		}
 		printf(" ");
 	}
+	free(out);
 	return 0;
 }
