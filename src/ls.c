@@ -60,10 +60,11 @@ int main(int argc, char** argv) {
 				"Drake's Epic Coreutils (working title)\n"
 				"ls - print all files and directories in working directory\n"
 				"Available arguments:\n"
-				"	--help: show this help message\n"
-				"	--version: show the version of the program (WIP)\n"
-				"	--color: colour the output depending on whether there is a file or folder\n"
-				"	--colour: same as --color, but for our Bri'ish folks";
+				"	--help:        show this help message\n"
+				"	--version:     show the version of the program (WIP)\n"
+				"	--color:       colour the output depending on whether there is a file or folder\n"
+				"	--colour:      same as --color, but for our Bri'ish folks\n"
+				"	-C, --columns: print every entry on a seperate line";
 			printf("%s\n", help);
 			return 0;
 		} else if (!strcmp(arg, "--version")) {
