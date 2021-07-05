@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 					"arch - prints the current machine's architecture\n"
 					"Available arguments:\n"
 					"	--help: show this help message\n"
-					"	--version: show the version of the program (WIP)";
+					"	--version: show the version of the program";
 				printf("%s\n", help);
 				return 0;
 			} else if (!strcmp(arg, "--version")) {

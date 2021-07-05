@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 					"whoami - prints the working user's username (unless --uid is specified)\n"
 					"Available arguments:\n"
 					"	--help: show this help message\n"
-					"	--version: show the version of the program (WIP)\n"
+					"	--version: show the version of the program\n"
 					"	--uid: print the users numeric UID, instead of username";
 				printf("%s\n", help);
 				return 0;
