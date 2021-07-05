@@ -45,13 +45,14 @@ int main(int argc, char** argv) {
 					"\n"
 					"uname - prints system information.\n"
 					"Available arguments:\n"
-					"	--help: show this help message\n"
-					"	--version: show the version of the program\n"
-					"	-s, --sysinfo: kernel type(?)\n"
+					"	--help:         show this help message\n"
+					"	--version:      show the version of the program\n"
+					"	-a, --all:      print all information (equivalent to -shrvm). \n"
+					"	-s, --sysinfo:  kernel type(?)\n"
 					"	-h, --hostname: hostname\n"
 					"	-r, --krelease: kernel version\n"
 					"	-v, --kversion: verbose kernel build version info\n"
-					"	-m, --arch: cpu architecture\n"
+					"	-m, --arch:     cpu architecture\n"
 					"Examples:\n"
 					"	Command:\n"	
 					"		uname -srh\n"
@@ -79,6 +80,19 @@ int main(int argc, char** argv) {
 			} else if (!strcmp(arg, "--arch")) {
 				printf(uts.machine);
 				printf(" ");
+			} else if (!strcmp(arg, "--all")) {
+				//equivalent to -shrvm
+				printf(uts.sysname);
+				printf(" ");
+				char hostname[HOST_NAME_MAX + 1];
+				gethostname(hostname, HOST_NAME_MAX + 1);
+				printf(hostname);
+				printf(" ");
+				printf(uts.release);
+				printf(" ");
+				printf(uts.version);
+				printf(" ");
+				printf(uts.machine);
 			} else if (startsWithChar(arg, '-')) {
 				char info;
 				for (int n = 1; n < strlen(arg); n++) {
@@ -101,6 +115,21 @@ int main(int argc, char** argv) {
 					}
 					if (info == 'm') {
 						printf(uts.machine);
+					}
+					if (info == 'a') {
+						//equivalent to -shrvm
+						printf(uts.sysname);
+						printf(" ");
+						char hostname[HOST_NAME_MAX + 1];
+						gethostname(hostname, HOST_NAME_MAX + 1);
+						printf(hostname);
+						printf(" ");
+						printf(uts.release);
+						printf(" ");
+						printf(uts.version);
+						printf(" ");
+						printf(uts.machine);
+						
 					}
 					printf(" ");
 				}
