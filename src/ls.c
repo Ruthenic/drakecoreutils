@@ -141,9 +141,9 @@ int main(int argc, char** argv) {
 			strcat(wd, words[i]);
 			//printf(wd);
 			if (isRegularFile(wd) == false) {
-				printf(BLU);
+				printf(ANSI_BLUE);
 				printf(words[i]);
-				printf(reset);
+				printf(ANSI_RESET);
 			} else {
 				printf(words[i]);
 			}

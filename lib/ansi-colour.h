@@ -1,80 +1,99 @@
+//https://github.com/iannisdezwart/flow/blob/main/formatting/ansi.hpp
 /*
- * This is free and unencumbered software released into the public domain.
- *
- * For more information, please refer to <https://unlicense.org>
- */
+	Terminal output sequences
+*/
 
-//https://gist.github.com/RabaDabaDoba/145049536f815903c79944599c6f952a
+#define ANSI_CURSOR_UP(n)        "\x1b[" #n "A"
+#define ANSI_CURSOR_DOWN(n)      "\x1b[" #n "B"
+#define ANSI_CURSOR_FORWARD(n)   "\x1b[" #n "C"
+#define ANSI_CURSOR_BACK(n)      "\x1b[" #n "D"
+#define ANSI_CURSOR_NEXT_LINE(n) "\x1b[" #n "E"
+#define ANSI_CURSOR_PREV_LINE(n) "\x1b[" #n "F"
+#define ANSI_CURSOR_TO_COL(n)    "\x1b[" #n "G"
+#define ANSI_CURSOR_TO(x, y)     "\x1b[" #x ";" #y "H"
+#define ANSI_ERASE_DISPLAY(n)    "\x1b[J"
+#define ANSI_ERASE_LINE(n)       "\x1b[K"
+#define ANSI_SCROLL_UP(n)        "\x1b[" #n "S"
+#define ANSI_SCROLL_DOWN(n)      "\x1b[" #n "T"
 
-//Regular text
-#define BLK "\e[0;30m"
-#define RED "\e[0;31m"
-#define GRN "\e[0;32m"
-#define YEL "\e[0;33m"
-#define BLU "\e[0;34m"
-#define MAG "\e[0;35m"
-#define CYN "\e[0;36m"
-#define WHT "\e[0;37m"
+/*
+	Rendition
+*/
 
-//Regular bold text
-#define BBLK "\e[1;30m"
-#define BRED "\e[1;31m"
-#define BGRN "\e[1;32m"
-#define BYEL "\e[1;33m"
-#define BBLU "\e[1;34m"
-#define BMAG "\e[1;35m"
-#define BCYN "\e[1;36m"
-#define BWHT "\e[1;37m"
+// Basic SGR
 
-//Regular underline text
-#define UBLK "\e[4;30m"
-#define URED "\e[4;31m"
-#define UGRN "\e[4;32m"
-#define UYEL "\e[4;33m"
-#define UBLU "\e[4;34m"
-#define UMAG "\e[4;35m"
-#define UCYN "\e[4;36m"
-#define UWHT "\e[4;37m"
+#define ANSI_SGR(n) "\x1b[" #n "m"
 
-//Regular background
-#define BLKB "\e[40m"
-#define REDB "\e[41m"
-#define GRNB "\e[42m"
-#define YELB "\e[43m"
-#define BLUB "\e[44m"
-#define MAGB "\e[45m"
-#define CYNB "\e[46m"
-#define WHTB "\e[47m"
+// SGR effects
 
-//High intensty background 
-#define BLKHB "\e[0;100m"
-#define REDHB "\e[0;101m"
-#define GRNHB "\e[0;102m"
-#define YELHB "\e[0;103m"
-#define BLUHB "\e[0;104m"
-#define MAGHB "\e[0;105m"
-#define CYNHB "\e[0;106m"
-#define WHTHB "\e[0;107m"
+#define ANSI_RESET     ANSI_SGR(0)
+#define ANSI_BOLD      ANSI_SGR(1)
+#define ANSI_FAINT     ANSI_SGR(2)
+#define ANSI_ITALIC    ANSI_SGR(3)
+#define ANSI_UNDERLINE ANSI_SGR(4)
+#define ANSI_BLINK     ANSI_SGR(5)
+#define ANSI_REVERSE   ANSI_SGR(7)
+#define ANSI_CROSSED   ANSI_SGR(9)
 
-//High intensty text
-#define HBLK "\e[0;90m"
-#define HRED "\e[0;91m"
-#define HGRN "\e[0;92m"
-#define HYEL "\e[0;93m"
-#define HBLU "\e[0;94m"
-#define HMAG "\e[0;95m"
-#define HCYN "\e[0;96m"
-#define HWHT "\e[0;97m"
+// SGR disable effects
 
-//Bold high intensity text
-#define BHBLK "\e[1;90m"
-#define BHRED "\e[1;91m"
-#define BHGRN "\e[1;92m"
-#define BHYEL "\e[1;93m"
-#define BHBLU "\e[1;94m"
-#define BHMAG "\e[1;95m"
-#define BHCYN "\e[1;96m"
-#define BHWHT "\e[1;97m"
+#define ANSI_DOUBLE_UNDERLINE  ANSI_SGR(21)
+#define ANSI_DISABLE_BOLD      ANSI_SGR(22)
+#define ANSI_DISABLE_FAINT     ANSI_DISABLE_BOLD
+#define ANSI_DISABLE_ITALIC    ANSI_SGR(23)
+#define ANSI_DISABLE_UNDERLINE ANSI_SGR(24)
+#define ANSI_DISABLE_BLINK     ANSI_SGR(25)
+#define ANSI_DISABLE_REVERSE   ANSI_SGR(27)
+#define ANSI_DISABLE_CROSSED   ANSI_SGR(29)
 
-//Reset
-#define reset "\e[0m"
+#define ANSI_DEFAULT_FG ANSI_SGR(39)
+#define ANSI_DEFAULT_BG ANSI_SGR(49)
+
+// Default foreground colours
+
+#define ANSI_BLACK   ANSI_SGR(30)
+#define ANSI_RED     ANSI_SGR(31)
+#define ANSI_GREEN   ANSI_SGR(32)
+#define ANSI_YELLOW  ANSI_SGR(33)
+#define ANSI_BLUE    ANSI_SGR(34)
+#define ANSI_MAGENTA ANSI_SGR(35)
+#define ANSI_CYAN    ANSI_SGR(36)
+#define ANSI_WHITE   ANSI_SGR(37)
+
+// Default background colours
+
+#define ANSI_BLACK_BG   ANSI_SGR(40)
+#define ANSI_RED_BG     ANSI_SGR(41)
+#define ANSI_GREEN_BG   ANSI_SGR(42)
+#define ANSI_YELLOW_BG  ANSI_SGR(43)
+#define ANSI_BLUE_BG    ANSI_SGR(44)
+#define ANSI_MAGENTA_BG ANSI_SGR(45)
+#define ANSI_CYAN_BG    ANSI_SGR(46)
+#define ANSI_WHITE_BG   ANSI_SGR(47)
+
+// Bright foreground colours
+
+#define ANSI_BRIGHT_BLACK   ANSI_SGR(90)
+#define ANSI_BRIGHT_RED     ANSI_SGR(91)
+#define ANSI_BRIGHT_GREEN   ANSI_SGR(92)
+#define ANSI_BRIGHT_YELLOW  ANSI_SGR(93)
+#define ANSI_BRIGHT_BLUE    ANSI_SGR(94)
+#define ANSI_BRIGHT_MAGENTA ANSI_SGR(95)
+#define ANSI_BRIGHT_CYAN    ANSI_SGR(96)
+#define ANSI_BRIGHT_WHITE   ANSI_SGR(97)
+
+// Bright background colours
+
+#define ANSI_BRIGHT_BLACK_BG   ANSI_SGR(100)
+#define ANSI_BRIGHT_RED_BG     ANSI_SGR(101)
+#define ANSI_BRIGHT_GREEN_BG   ANSI_SGR(102)
+#define ANSI_BRIGHT_YELLOW_BG  ANSI_SGR(103)
+#define ANSI_BRIGHT_BLUE_BG    ANSI_SGR(104)
+#define ANSI_BRIGHT_MAGENTA_BG ANSI_SGR(105)
+#define ANSI_BRIGHT_CYAN_BG    ANSI_SGR(106)
+#define ANSI_BRIGHT_WHITE_BG   ANSI_SGR(107)
+
+// 24-bit colour
+
+#define ANSI_SET_COLOUR(r, g, b) "\x1b[38;2;" #r ";" #g ";" #b "m"
+#define ANSI_SET_BG_COLOUR(r, g, b) "\x1b[48;2;" #r ";" #g ";" #b "m"
