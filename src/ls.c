@@ -85,7 +85,6 @@ int main(int argc, char** argv) {
 	} else if (specpath == true) {
 		//printf("f\n");
 		strcpy(wd, realpath(thatpath, NULL));
-		free(thatpath);
 	}
 	//printf(wd);
 	DIR* dirp;
