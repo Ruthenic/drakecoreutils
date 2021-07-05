@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
 	}
 	int len = sizeof(char);
 	char *out = malloc(len);
-	*out = NULL;
+	out = NULL;
 	dp = readdir(dirp);
 	do {
 		char* dirname = dp->d_name;
