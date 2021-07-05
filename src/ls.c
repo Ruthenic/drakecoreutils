@@ -10,6 +10,7 @@
 #include <sys/types.h>
 
 #include "ansi-colour.h"
+#include "version.h"
 
 /*
 ls - print all files and directories in working directory
@@ -57,7 +58,9 @@ int main(int argc, char** argv) {
 		printf(" ");*/
 		if (!strcmp(arg, "--help")) {
 			char* help = 
-				"Drake's Epic Coreutils (working title)\n"
+				"Drake's Epic Coreutils (working title) "
+				DRAKECU_VERSION
+				"\n"
 				"ls - print all files and directories in working directory\n"
 				"Available arguments:\n"
 				"	--help:        show this help message\n"
@@ -68,7 +71,7 @@ int main(int argc, char** argv) {
 			printf("%s\n", help);
 			return 0;
 		} else if (!strcmp(arg, "--version")) {
-			printf("6.9.69\n");
+			printf(DRAKECU_VERSION);
 			return 0;
 		} else if (!strcmp(arg, "--color") || !strcmp(arg, "--colour")) {
 			colour  = true;

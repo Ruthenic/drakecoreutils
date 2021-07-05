@@ -4,6 +4,8 @@
 #include <sys/types.h>
 #include <pwd.h>
 
+#include "version.h"
+
 /*
 whoami - prints the working user's username (unless --uid is specified)
 Available arguments:
@@ -25,7 +27,9 @@ int main(int argc, char** argv) {
 			printf(" ");*/
 			if (!strcmp(arg, "--help")) {
 				char* help = 
-					"Drake's Epic Coreutils (working title)\n"
+					"Drake's Epic Coreutils (working title) "
+					DRAKECU_VERSION
+					"\n"
 					"whoami - prints the working user's username (unless --uid is specified)\n"
 					"Available arguments:\n"
 					"	--help: show this help message\n"
@@ -34,7 +38,7 @@ int main(int argc, char** argv) {
 				printf("%s\n", help);
 				return 0;
 			} else if (!strcmp(arg, "--version")) {
-				printf("6.9.69\n");
+				printf(DRAKECU_VERSION);
 				return 0;
 			} else if (!strcmp(arg, "--uid")) {
 				printf("%lu\n", (unsigned long int)userid);
