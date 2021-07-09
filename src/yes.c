@@ -15,8 +15,6 @@ Available arguments:
 */
 
 int main(int argc, char** argv) {
-	uid_t userid = geteuid();
-	char * username = getpwuid(userid)->pw_name;
 	if (argc == 1) {
 		do {
 			printf("y\n");
