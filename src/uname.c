@@ -33,8 +33,7 @@ int main(int argc, char** argv) {
 		printf("%s\n", uts.sysname);
 	} else {
 		for (int i = 1; i < argc; i++) {
-			char *arg = malloc(sizeof(argv[i]));
-			arg = argv[i];
+			char *arg = argv[i];
 			/*printf(arg);
 			printf(" ");*/
 			if (!strcmp(arg, "--help")) {
