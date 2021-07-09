@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 				printf(DRAKECU_VERSION);
 				return 0;
 			} else if (!strcmp(arg, "--uid")) {
-				printf("%lu\n", (unsigned long int)geteuid());
+				printf("%d", (int)geteuid());
 				return 0;
 			}
 		}
