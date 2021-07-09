@@ -15,16 +15,13 @@ Available arguments:
 */
 
 int main(int argc, char** argv) {
-	uid_t userid = geteuid();
-	char * username = getpwuid(userid)->pw_name;
+	char * username = getlogin(); //a fucking ai came up with this. a fucking ai. A FUCKING AI
 	if (argc == 1) {
 		printf(username);
 		return 0;
 	} else {
 		for (int i = 0; i < argc; i++) {
 			char* arg = argv[i];
-			/*printf(arg);
-			printf(" ");*/
 			if (!strcmp(arg, "--help")) {
 				char* help = 
 					"Drake's Epic Coreutils (working title) "
@@ -41,7 +38,7 @@ int main(int argc, char** argv) {
 				printf(DRAKECU_VERSION);
 				return 0;
 			} else if (!strcmp(arg, "--uid")) {
-				printf("%lu\n", (unsigned long int)userid);
+				printf("%lu\n", (unsigned long int)geteuid());
 				return 0;
 			}
 		}
