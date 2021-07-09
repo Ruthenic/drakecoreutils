@@ -48,5 +48,5 @@ int main(int argc, char** argv) {
 		}
 	}
 	wd = basename(upname);
-	printf(wd);
+	printf("%s", wd);
 }

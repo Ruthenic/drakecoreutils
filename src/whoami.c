@@ -17,7 +17,7 @@ Available arguments:
 int main(int argc, char** argv) {
 	char * username = getlogin(); //a fucking ai came up with this. a fucking ai. A FUCKING AI
 	if (argc == 1) {
-		printf(username);
+		printf("%s", username);
 		return 0;
 	} else {
 		for (int i = 0; i < argc; i++) {

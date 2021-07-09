@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	char wd[PATH_MAX];
 	getcwd(wd, sizeof(wd));
 	if (argc == 1) {
-		printf(wd);
+		printf("%s", wd);
 	} else {
 		for (int i = 0; i < argc; i++) {
 			char* arg = argv[i];

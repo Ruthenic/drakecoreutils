@@ -30,12 +30,12 @@ int main(int argc, char** argv) {
     struct utsname uts;
     uname(&uts);
 	if (argc == 1) {
-		printf("%s\n", uts.sysname);
+		printf("%s", uts.sysname);
 	} else {
 		for (int i = 1; i < argc; i++) {
 			char *arg = argv[i];
 			/*printf(arg);
-			printf(" ");*/
+			*/
 			if (!strcmp(arg, "--help")) {
 				char* help = 
 					"Drake's Epic Coreutils (working title) "
@@ -64,33 +64,24 @@ int main(int argc, char** argv) {
 			} else if (!strcmp(arg, "--hostname")) {
 				char hostname[HOST_NAME_MAX + 1];
 				gethostname(hostname, HOST_NAME_MAX + 1);
-				printf(hostname);
-				printf(" ");
+				printf("%s ", hostname);
 			} else if (!strcmp(arg, "--sysinfo")) {
-				printf(uts.sysname);
-				printf(" ");
+				printf("%s ", uts.sysname);
 			} else if (!strcmp(arg, "--krelease")) {
-				printf(uts.release);
-				printf(" ");
+				printf("%s ", uts.release);
 			} else if (!strcmp(arg, "--kversion")) {
-				printf(uts.version);
-				printf(" ");
+				printf("%s ", uts.version);
 			} else if (!strcmp(arg, "--arch")) {
-				printf(uts.machine);
-				printf(" ");
+				printf("%s ", uts.machine);
 			} else if (!strcmp(arg, "--all")) {
 				//equivalent to -shrvm
-				printf(uts.sysname);
-				printf(" ");
+				printf("%s ", uts.sysname);
 				char hostname[HOST_NAME_MAX + 1];
 				gethostname(hostname, HOST_NAME_MAX + 1);
-				printf(hostname);
-				printf(" ");
-				printf(uts.release);
-				printf(" ");
-				printf(uts.version);
-				printf(" ");
-				printf(uts.machine);
+				printf("%s ", hostname);
+				printf("%s ", uts.release);
+				printf("%s ", uts.version);
+				printf("%s ", uts.machine);
 			} else if (startsWithChar(arg, '-')) {
 				char info;
 				for (int n = 1; n < strlen(arg); n++) {
@@ -100,36 +91,30 @@ int main(int argc, char** argv) {
 					if (info == 'h') {
 						char hostname[HOST_NAME_MAX + 1];
 						gethostname(hostname, HOST_NAME_MAX + 1);
-						printf(hostname);
+						printf("%s ", hostname);
 					}
 					if (info == 's') {
-						printf(uts.sysname);
+						printf("%s ", uts.sysname);
 					}
 					if (info == 'r') {
-						printf(uts.release);
+						printf("%s ", uts.release);
 					}
 					if (info == 'v') {
-						printf(uts.version);
+						printf("%s ", uts.version);
 					}
 					if (info == 'm') {
-						printf(uts.machine);
+						printf("%s ", uts.machine);
 					}
 					if (info == 'a') {
 						//equivalent to -shrvm
-						printf(uts.sysname);
-						printf(" ");
+						printf("%s ", uts.sysname);
 						char hostname[HOST_NAME_MAX + 1];
 						gethostname(hostname, HOST_NAME_MAX + 1);
-						printf(hostname);
-						printf(" ");
-						printf(uts.release);
-						printf(" ");
-						printf(uts.version);
-						printf(" ");
-						printf(uts.machine);
-						
+						printf("%s ", hostname);
+						printf("%s ", uts.release);
+						printf("%s ", uts.version);
+						printf("%s ", uts.machine);
 					}
-					printf(" ");
 				}
 			}
 		}

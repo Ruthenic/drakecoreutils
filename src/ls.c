@@ -134,7 +134,7 @@ int main(int argc, char** argv) {
 	int currLen = 0;
 	for (i = 0; i < n; i++) {
 		if (colour == false) {
-			printf(words[i]);
+			printf("%s", words[i]);
 		} else {
 			strcpy(wd, oldwd);
 			strcat(wd, "/");
@@ -142,10 +142,10 @@ int main(int argc, char** argv) {
 			//printf(wd);
 			if (isRegularFile(wd) == false) {
 				printf(ANSI_BLUE);
-				printf(words[i]);
+				printf("%s", words[i]);
 				printf(ANSI_RESET);
 			} else {
-				printf(words[i]);
+				printf("%s", words[i]);
 			}
 		}
 		printf(" ");
