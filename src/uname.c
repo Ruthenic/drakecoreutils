@@ -30,8 +30,7 @@ int main(int argc, char** argv) {
     struct utsname uts;
     uname(&uts);
 	if (argc == 1) {
-		printf("supply missing operand.");
-		return 1;
+		printf("%s\n", uts.sysname);
 	} else {
 		for (int i = 1; i < argc; i++) {
 			char *arg = malloc(sizeof(argv[i]));
