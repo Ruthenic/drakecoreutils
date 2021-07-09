@@ -17,7 +17,7 @@ endif
 ifndef PROGS
 PROGS := whoami arch ls pwd basename uname yes
 endif
-make:
+all:
 	mkdir -p bin
 	for prog in ${PROGS}; do ${CC} -o bin/$$prog -Ilib ${CC_FLAGS} src/$$prog.c; done 
 tv:
