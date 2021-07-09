@@ -1,0 +1,2 @@
+- fix printf vulns (solving clang errors, and code reviewers annoyance)
+- add more file checking functions similar to `isRegularFile()` (currently in ls), ie `isRegularFolder()`, `isRegularSymlink()`, and similar
