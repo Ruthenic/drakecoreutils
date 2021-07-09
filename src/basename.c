@@ -17,10 +17,11 @@ Available arguments:
 
 int main(int argc, char** argv) {
 	char *wd;
-	char *upname;
+	char *upname = NULL;
 	if (argc == 1) {
-		printf("supply missing operand.");
-		return 1;
+		char tmp[PATH_MAX];
+		getcwd(tmp, sizeof(tmp));
+		upname = tmp;
 	} else {
 		for (int i = 1; i < argc; i++) {
 			char* arg = argv[i];
