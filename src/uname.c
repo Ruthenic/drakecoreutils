@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     struct utsname uts;
     uname(&uts);
 	if (argc == 1) {
-		printf("%s", uts.sysname);
+		printf("%s\n", uts.sysname);
 	} else {
 		for (int i = 1; i < argc; i++) {
 			char *arg = argv[i];
@@ -118,5 +118,6 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
+		printf("\n")
 	}
 }

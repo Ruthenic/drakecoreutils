@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	if (argc == 1) {
 		struct utsname e;
 		uname(&e);
-		printf("%s", e.machine);
+		printf("%s\n", e.machine);
 		return 0;
 	} else {
 		for (int i = 0; i < argc; i++) {

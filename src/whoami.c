@@ -17,7 +17,7 @@ Available arguments:
 int main(int argc, char** argv) {
 	char * username = getlogin(); //a fucking ai came up with this. a fucking ai. A FUCKING AI
 	if (argc == 1) {
-		printf("%s", username);
+		printf("%s\n", username);
 		return 0;
 	} else {
 		for (int i = 0; i < argc; i++) {
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 				printf(DRAKECU_VERSION);
 				return 0;
 			} else if (!strcmp(arg, "--uid")) {
-				printf("%d", (int)geteuid());
+				printf("%d\n", (int)geteuid());
 				return 0;
 			}
 		}
