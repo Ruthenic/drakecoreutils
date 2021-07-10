@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <linux/limits.h>
 
 #include "ansi-colour.h"
 #include "version.h"
@@ -134,7 +135,7 @@ int main(int argc, char** argv) {
 	int currLen = 0;
 	for (i = 0; i < n; i++) {
 		if (colour == false) {
-			printf("%s\n", words[i]);
+			printf("%s  ", words[i]);
 		} else {
 			strcpy(wd, oldwd);
 			strcat(wd, "/");
@@ -142,13 +143,12 @@ int main(int argc, char** argv) {
 			//printf(wd);
 			if (isRegularFile(wd) == false) {
 				printf(ANSI_BLUE);
-				printf("%s\n", words[i]);
+				printf("%s  ", words[i]);
 				printf(ANSI_RESET);
 			} else {
-				printf("%s\n", words[i]);
+				printf("%s  ", words[i]);
 			}
 		}
-		printf(" ");
 		currLen += strlen(words[i]);
 		if (currLen >= maxLen) {
 			printf("\n");
