@@ -36,8 +36,20 @@ int cmp(const void *a, const void *b){
 bool isRegularFile(const char *path)
 {
     struct stat path_stat;
-    stat(path, &path_stat);
+    lstat(path, &path_stat);
     return S_ISREG(path_stat.st_mode);
+}
+
+bool isDirectory(const char *path) {
+	struct stat path_stat;
+	lstat(path, &path_stat);
+	return S_ISDIR(path_stat.st_mode);
+}
+
+bool isSymlink(const char *path) {
+	struct stat path_stat;
+	lstat(path, &path_stat);
+	return S_ISLNK(path_stat.st_mode);
 }
 
 int printBool(bool cond) {
@@ -141,7 +153,11 @@ int main(int argc, char** argv) {
 			strcat(wd, "/");
 			strcat(wd, words[i]);
 			//printf(wd);
-			if (isRegularFile(wd) == false) {
+			if (isSymlink(wd) == true) {
+				printf(ANSI_GREEN);
+				printf("%s  ", words[i]);
+				printf(ANSI_RESET);
+			} else if (isDirectory(wd) == true) {
 				printf(ANSI_BLUE);
 				printf("%s  ", words[i]);
 				printf(ANSI_RESET);
