@@ -1,1 +1,1 @@
-- add more file checking functions similar to `isRegularFile()` (currently in ls), ie `isRegularFolder()`, `isRegularSymlink()`, and similar
+- `yes.c` - add changable spammy word
