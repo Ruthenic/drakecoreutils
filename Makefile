@@ -21,6 +21,8 @@ debug:
 	@for prog in ${PROGS}; do echo Building $$prog... && ${CC} -g -O0 -v -o bin/$$prog ${CC_FLAGS} src/$$prog.c; done
 clean:
 	@rm -rf bin
+install:
+	install -m 777 bin/* /usr/local/bin
 help:
 	@echo "Drake's Epic Coreutils Makefile Help Page™"
 	@echo 'make' - build normal version.
