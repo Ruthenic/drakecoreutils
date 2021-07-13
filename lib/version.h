@@ -1,1 +1,1 @@
-#define DRAKECU_VERSION "0.2"
+#define DRAKECU_VERSION "0.2.1"
