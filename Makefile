@@ -10,6 +10,9 @@ CC_FLAGS := -Ilib ${CC_FLAGS}
 ifndef PROGS
 PROGS := whoami arch ls pwd basename uname yes
 endif
+ifndef DESTDIR
+DESTDIR := /
+endif
 all:
 	@mkdir -p bin
 	@for prog in ${PROGS}; do echo Building $$prog... && ${CC} -o bin/$$prog ${CC_FLAGS} src/$$prog.c; done
@@ -22,7 +25,7 @@ debug:
 clean:
 	@rm -rf bin
 install:
-	install -m 777 bin/* /usr/local/bin
+	install -m 777 bin/* ${DESTDIR}usr/local/bin
 help:
 	@echo "Drake's Epic Coreutils Makefile Help Page™"
 	@echo 'make' - build normal version.
