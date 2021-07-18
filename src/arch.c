@@ -5,7 +5,6 @@
 #include <pwd.h>
 #include <sys/utsname.h>
 
-#include "version.h"
 
 /*
 arch - prints the current machine's architecture

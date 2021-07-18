@@ -4,7 +4,6 @@
 #include <limits.h>
 #include <pwd.h>
 
-#include "version.h"
 
 /*
 whoami - prints the working user's username (unless --uid is specified)

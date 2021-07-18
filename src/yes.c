@@ -5,8 +5,6 @@
 #include <pwd.h>
 #include <stdlib.h>
 
-#include "version.h"
-
 /*
 yes - spams a message (by default `y`) to stdout.
 Available arguments:

@@ -11,7 +11,6 @@
 #include <linux/limits.h>
 
 #include "ansi-colour.h"
-#include "version.h"
 
 /*
 ls - print all files and directories in working directory
