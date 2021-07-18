@@ -13,23 +13,33 @@ endif
 ifndef DESTDIR
 DESTDIR := /
 endif
-all:
+
+.PHONY: all
+.DEFAULT: all
+all: ${PROGS}
+
+${PROGS}: %: src/%.c
+	@#for some idiotic reason, i can't define 2 `all` targets, one of which can make this directory
 	@mkdir -p bin
-	@for prog in ${PROGS}; do echo Building $$prog... && ${CC} -o bin/$$prog ${CC_FLAGS} src/$$prog.c; done
-verbose:
-	@mkdir -p bin
-	@for prog in ${PROGS}; do echo Building $$prog... && ${CC} -v -o bin/$$prog ${CC_FLAGS} src/$$prog.c; done
-debug:
-	@mkdir -p bin
-	@for prog in ${PROGS}; do echo Building $$prog... && ${CC} -g -O0 -v -o bin/$$prog ${CC_FLAGS} src/$$prog.c; done
+	@echo Building $@.. 
+	@${CC} -o bin/$@ ${CC_FLAGS} $<
+
+.PHONY: debug
+debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
+debug: all
+
+.PHONY: clean
 clean:
 	@rm -rf bin
+
+.PHONY: install
 install:
 	install -m 777 bin/* ${DESTDIR}usr/local/bin
+
+.PHONY: help
 help:
 	@echo "Drake's Epic Coreutils Makefile Help Page™"
 	@echo 'make' - build normal version.
-	@echo 'make debug' - build verbosly, and with \`-g -O0\` for the lowest amount of compiler optimization, so that valgrind and such can report line numbers, and have more information in general
-	@echo 'make verbose' - build normal version with verbose compilation for debugging.
+	@echo 'make debug' - build verbosly, and with \`-g -O0\` for the lowest amount of compiler optimization, so that valgrind and such can report line numbers, and have more information in general.
 	@echo 'make clean' - removes binaries.
 	@echo 'make help' - display this help message.
