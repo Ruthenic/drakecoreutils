@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
 				printf("%s ", uts.machine);
 			} else if (startsWithChar(arg, '-')) {
 				char info;
-				for (int n = 1; n < strlen(arg); n++) {
+				for (unsigned long n = 1; n < strlen(arg); n++) {
 					info = arg[n];
 					//printf(info);
 					//printf("\n");
