@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 	bool colour   = false;
 	bool showdot  = false;
 	bool specpath = false;
-	bool columns  = false;
+	int maxLen    = 180;
 	char *thatpath;
 	for (int i = 1; i < argc; i++) {
 		char* arg = argv[i];
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 		} else if (!strcmp(arg, "-a") || !strcmp(arg, "--all")) {
 			showdot = true;
 		} else if (!strcmp(arg, "-C") || !strcmp(arg, "--columns")) {
-			columns = true;
+			maxLen = 0;
 		} else {
 			//TODO: interpret absolute *and* relative paths. can't be that hard, right?
 			specpath = true;
@@ -139,10 +139,6 @@ int main(int argc, char** argv) {
 	qsort(words, n, sizeof(*words), cmp);
 	char oldwd[PATH_MAX];
 	strcpy(oldwd, wd);
-	int maxLen = 0;
-	if (columns == false) {
-		maxLen = 180;
-	}
 	int currLen = 0;
 	for (i = 0; i < n; i++) {
 		if (colour == false) {
