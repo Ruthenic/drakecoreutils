@@ -11,6 +11,7 @@
 #include <linux/limits.h>
 
 #include "ansi-colour.h"
+#include "file.h"
 
 /*
 ls - print all files and directories in working directory
@@ -19,7 +20,13 @@ Available arguments:
 	--version: show the version of the program (WIP)
 */
 //https://stackoverflow.com/questions/4770985/how-to-check-if-a-string-starts-with-another-string-in-c/4770992#4770992
-bool startsWithChar(const char *pre, const char str) {
+
+/*static int printBool(bool cond) {
+	printf("%s\n", cond ? "true" : "false");
+	return 0;
+}*/
+
+static bool startsWithChar(const char *pre, const char str) {
 	char *e;
 	int index;
 	e = strchr(pre, str);
@@ -27,33 +34,8 @@ bool startsWithChar(const char *pre, const char str) {
 	return index == 0;
 }
 
-int cmp(const void *a, const void *b){
-    return strcmp(*(const char **)a, *(const char **)b);
-}
-
-//https://stackoverflow.com/a/4553076
-bool isRegularFile(const char *path)
-{
-    struct stat path_stat;
-    lstat(path, &path_stat);
-    return S_ISREG(path_stat.st_mode);
-}
-
-bool isDirectory(const char *path) {
-	struct stat path_stat;
-	lstat(path, &path_stat);
-	return S_ISDIR(path_stat.st_mode);
-}
-
-bool isSymlink(const char *path) {
-	struct stat path_stat;
-	lstat(path, &path_stat);
-	return S_ISLNK(path_stat.st_mode);
-}
-
-int printBool(bool cond) {
-	printf("%s\n", cond ? "true" : "false");
-	return 0;
+static int cmp(const void *a, const void *b){
+    return strcmp(*(char **)a, *(char **)b);
 }
 
 //lots o' code ~~stolen~~ borrowed from https://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html
