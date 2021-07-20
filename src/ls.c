@@ -33,6 +33,22 @@ static int cmp(const void *a, const void *b) {
   return strcmp(*(char **)a, *(char **)b);
 }
 
+static bool startsWithStr(char *prefix, char *string) {
+  if (strlen(prefix) > strlen(string)) {
+    return false;
+  }
+  int max = strlen(prefix);
+  int i = 0;
+  do {
+    if (prefix[i] == string[i]) {
+      i++;
+    } else {
+      return false;
+    }
+  } while (i < max);
+  return true;
+}
+
 // lots o' code ~~stolen~~ borrowed from
 // https://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html
 int main(int argc, char **argv) {
@@ -68,6 +84,15 @@ int main(int argc, char **argv) {
       showdot = true;
     } else if (!strcmp(arg, "-C") || !strcmp(arg, "--columns")) {
       maxLen = 0;
+    } else if (startsWithStr("--width", arg)) {
+      char widthstr[100]; // if someone has a longer width than this, then owo
+      int i, n;
+      n = 0;
+      for (i = 8; (size_t)i < strlen(arg); i++) {
+        widthstr[n] = arg[i];
+        n++;
+      }
+      maxLen = atoi(widthstr);
     } else {
       // TODO: interpret absolute *and* relative paths. can't be that hard,
       // right?
@@ -104,7 +129,7 @@ int main(int argc, char **argv) {
       strcat(out, "§");
     }
   } while ((dp = readdir(dirp)) != NULL);
-  if (out == NULL || out == "") {
+  if (out == NULL) {
     // printf(" \n");
     // imo this shouldn't be commented out for consistency with the rest of the
     // program, but gnu does it so so do we (english:tm:)
