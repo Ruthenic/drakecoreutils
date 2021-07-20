@@ -10,7 +10,7 @@ CC_FLAGS :=
 endif
 CC_FLAGS := -Ilib ${CC_FLAGS} 
 ifndef PROGS
-PROGS := whoami arch ls pwd basename uname yes
+PROGS := arch basename ls pwd uname whoami yes
 endif
 ifndef DESTDIR
 DESTDIR := /
@@ -24,7 +24,7 @@ ${PROGS}: %: src/%.c
 	@#for some idiotic reason, i can't define 2 `all` targets, one of which can make this directory
 	@mkdir -p bin
 	@echo Building $@.. 
-	@${CC} -o bin/$@ -D DRAKECU_VERSION=\"${VERSION}\" ${CC_FLAGS} $<
+	@${CC} -o bin/$@ -DDRAKECU_VERSION=\"${VERSION}\" ${CC_FLAGS} $<
 
 .PHONY: debug
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
