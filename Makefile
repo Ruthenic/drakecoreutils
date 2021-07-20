@@ -4,7 +4,8 @@ CC = gcc
 endif
 target := $(shell ${CC} -dumpmachine)
 ifndef CC_FLAGS
-#guess we gotta define this if it no exist, but imagine not needing custom cxx flags
+#guess we gotta define this if it no exist, \
+    but imagine not needing custom cxx flags
 CC_FLAGS :=
 endif
 CC_FLAGS := -Ilib ${CC_FLAGS} 
