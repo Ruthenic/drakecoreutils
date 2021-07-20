@@ -1,4 +1,4 @@
-VERSION=\"0.2.1\"
+VERSION=0.2.1
 ifndef CC
 CC = gcc
 endif
@@ -23,7 +23,7 @@ ${PROGS}: %: src/%.c
 	@#for some idiotic reason, i can't define 2 `all` targets, one of which can make this directory
 	@mkdir -p bin
 	@echo Building $@.. 
-	@${CC} -o bin/$@ -D DRAKECU_VERSION=${VERSION} ${CC_FLAGS} $<
+	@${CC} -o bin/$@ -D DRAKECU_VERSION=\"${VERSION}\" ${CC_FLAGS} $<
 
 .PHONY: debug
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
