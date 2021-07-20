@@ -15,7 +15,6 @@ Available arguments:
         --help: show this help message
         --version: show the version of the program (WIP)
 */
-// https://stackoverflow.com/questions/4770985/how-to-check-if-a-string-starts-with-another-string-in-c/4770992#4770992
 
 /*static int printBool(bool cond) {
         printf("%s\n", cond ? "true" : "false");
