@@ -1,14 +1,10 @@
 #include <stdio.h>
-#include <stdbool.h> 
+#include <stdbool.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <linux/limits.h>
 
 #include "ansi-colour.h"
 #include "file.h"
