@@ -104,6 +104,11 @@ int main(int argc, char **argv) {
       strcat(out, "§");
     }
   } while ((dp = readdir(dirp)) != NULL);
+  if (out == NULL || out == "") {
+  	// printf(" \n");
+  	// imo this shouldn't be commented out for consistency with the rest of the program, but gnu does it so so do we (english:tm:)
+  	return 0;
+  }
   free(dirp);
   char *word, *words[strlen(out) / 2 + 1];
   int i, n;
