@@ -105,6 +105,10 @@ int main(int argc, char **argv) {
     getcwd(wd, sizeof(wd));
   } else if (specpath == true) {
     char *e = realpath(thatpath, NULL);
+    if (e == NULL) {
+      printf("couldn't open '%s'. perhaps the path doesn't exist?\n", thatpath);
+      return 1;
+    }
     strcpy(wd, e);
     free(e);
   }
@@ -113,7 +117,7 @@ int main(int argc, char **argv) {
   struct dirent *dp;
   dirp = opendir(wd);
   if (dirp == NULL) {
-    printf("couldn't open '%s'\n", wd);
+    printf("couldn't open '%s'. perhaps the path doesn't exist?\n", wd);
     return 1;
   }
   int len = sizeof(char);
