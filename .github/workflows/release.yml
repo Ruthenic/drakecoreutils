@@ -1,0 +1,26 @@
+name: Build Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
+    - name: Create Archive
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: release.tar.gz
+        type: tar
+        path: bin
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: release
+        path: release.tar.gz
