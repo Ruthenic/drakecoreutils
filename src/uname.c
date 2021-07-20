@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
         printf("%s\n", help);
         return 0;
       } else if (!strcmp(arg, "--version")) {
-        printf(DRAKECU_VERSION);
+        printf("%s\n", DRAKECU_VERSION);
         return 0;
       } else if (!strcmp(arg, "--hostname")) {
         char hostname[HOST_NAME_MAX + 1];
