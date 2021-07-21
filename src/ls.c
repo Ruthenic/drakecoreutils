@@ -7,8 +7,8 @@
 #include <unistd.h>
 
 #include "ansi-colour.h"
-#include "file.h"
 #include "checks.h"
+#include "file.h"
 
 /*
 BSD 3-Clause License

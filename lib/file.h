@@ -1,6 +1,6 @@
-#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 /*
 BSD 3-Clause License
@@ -61,7 +61,7 @@ static int concatFileToStdout(char *file) {
   }
   char *contents = malloc(2);
   while (fgets(contents, 2, fp) != NULL) {
-  	printf("%s", contents);
+    printf("%s", contents);
   }
   free(contents);
   return 0;
