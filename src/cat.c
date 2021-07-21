@@ -4,6 +4,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "file.h"
+
 /*
 BSD 3-Clause License
 
@@ -35,21 +37,6 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
-int concatFileToStdout(char *file) {
-  FILE *fp;
-  fp = fopen(file, "r");
-  if (fp == NULL) {
-    printf("failed to open '%s'. perhaps the path doesn't exist?\n", file);
-    exit(1);
-  }
-  char *contents = malloc(LINE_MAX + 1);
-  while (fgets(contents, LINE_MAX + 1, fp) != NULL) {
-    printf("%s", contents);
-  }
-  free(contents);
-  return 0;
-}
 
 int main(int argc, char **argv) {
   if (argc == 1) {

@@ -1,4 +1,6 @@
 #include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 BSD 3-Clause License
@@ -48,4 +50,19 @@ static _Bool isSymlink(const char *path) {
   struct stat path_stat;
   lstat(path, &path_stat);
   return S_ISLNK(path_stat.st_mode);
+}
+
+static int concatFileToStdout(char *file) {
+  FILE *fp;
+  fp = fopen(file, "r");
+  if (fp == NULL) {
+    printf("failed to open '%s'. perhaps the path doesn't exist?\n", file);
+    exit(1);
+  }
+  char *contents = malloc(2);
+  while (fgets(contents, 2, fp) != NULL) {
+  	printf("%s", contents);
+  }
+  free(contents);
+  return 0;
 }
