@@ -72,7 +72,12 @@ int main(int argc, char **argv) {
           "	--color:       colour the output depending on whether there is "
           "a file or folder\n"
           "	--colour:      same as --color, but for our Bri'ish folks\n"
-          "	-C, --columns: print every entry on a seperate line";
+          "	-C, --columns: print every entry on a seperate line\n"
+          "	--width=LEN:   limit maximum line length to LEN\n"
+          "Usage:\n"
+          "	ls [options] DIRECTORY\n"
+          "Notes:\n"
+          "	If DIRECTORY is not specified, then the CWD is used.";
       printf("%s\n", help);
       return 0;
     } else if (!strcmp(arg, "--version")) {
