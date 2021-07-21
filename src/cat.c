@@ -41,7 +41,7 @@ int concatFileToStdout(char *file) {
   fp = fopen(file, "r");
   if (fp == NULL) {
     printf("failed to open '%s'. perhaps the path doesn't exist?\n", file);
-    return 1;
+    exit(1);
   }
   char *contents = malloc(LINE_MAX + 1);
   while (fgets(contents, LINE_MAX + 1, fp) != NULL) {
@@ -78,12 +78,7 @@ int main(int argc, char **argv) {
         printf("%s\n", DRAKECU_VERSION);
         return 0;
       } else {
-        int error = concatFileToStdout(arg);
-        if (error > 0 && i >= argc) {
-          return error;
-        } else if (i >= argc) {
-          return 0;
-        }
+        concatFileToStdout(arg);
       }
     }
     return 0;
