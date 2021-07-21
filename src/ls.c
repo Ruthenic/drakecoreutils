@@ -168,6 +168,11 @@ int main(int argc, char **argv) {
   strcpy(oldwd, wd);
   int currLen = 0;
   for (i = 0; i < n; i++) {
+    currLen += strlen(words[i]);
+    if (currLen >= maxLen) {
+      printf("\n");
+      currLen = 0;
+    }
     if (colour == false) {
       printf("%s  ", words[i]);
     } else {
@@ -186,11 +191,6 @@ int main(int argc, char **argv) {
       } else {
         printf("%s  ", words[i]);
       }
-    }
-    currLen += strlen(words[i]);
-    if (currLen >= maxLen) {
-      printf("\n");
-      currLen = 0;
     }
   }
   free(out);
