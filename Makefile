@@ -1,4 +1,4 @@
-VERSION="0.3.1\\nCopyright (c) 2021, Ruthenic. Licensed under BSD-3-Clause."
+VERSION="0.3.2\\nCopyright (c) 2021, Ruthenic. Licensed under BSD-3-Clause."
 ifndef CC
 CC = gcc
 endif
