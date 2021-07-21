@@ -4,6 +4,21 @@
 #include <string.h>
 #include <unistd.h>
 
+int concatFileToStdout(char *file) {
+  FILE *fp;
+  fp = fopen(file, "r");
+  if (fp == NULL) {
+    printf("failed to open '%s'. perhaps the path doesn't exist?\n", file);
+    return 1;
+  }
+  char *contents = malloc(LINE_MAX + 1);
+  while (fgets(contents, LINE_MAX + 1, fp) != NULL) {
+    printf("%s", contents);
+  }
+  free(contents);
+  return 0;
+}
+
 int main(int argc, char **argv) {
   if (argc == 1) {
     char ch;
@@ -12,7 +27,6 @@ int main(int argc, char **argv) {
     }
     return 0;
   } else {
-    char *file = NULL;
     for (int i = 1; i < argc; i++) {
       char *arg = argv[i];
       if (!strcmp(arg, "--help")) {
@@ -32,25 +46,14 @@ int main(int argc, char **argv) {
         printf("%s\n", DRAKECU_VERSION);
         return 0;
       } else {
-        file = arg;
-        break;
+        int error = concatFileToStdout(arg);
+        if (error > 0 && i >= argc) {
+          return error;
+        } else if (i >= argc) {
+          return 0;
+        }
       }
     }
-    if (file == NULL) {
-      printf(
-          "somehow, you got past the argv check without a file. congrats?\n");
-      return 1;
-    }
-    FILE *fp;
-    fp = fopen(file, "r");
-    if (fp == NULL) {
-      printf("failed to open '%s'. perhaps the path doesn't exist?\n", file);
-      return 1;
-    }
-    char *contents = malloc(LINE_MAX + 1);
-    while (fgets(contents, LINE_MAX + 1, fp) != NULL) {
-      printf("%s", contents);
-    }
-    free(contents);
+    return 0;
   }
 }
