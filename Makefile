@@ -12,6 +12,9 @@ CC_FLAGS := -Ilib ${CC_FLAGS}
 ifndef PROGS
 PROGS := arch basename cat ls pwd rm uname whoami yes
 endif
+ifndef EXCLUDE_PROGS
+EXCLUDE_PROGS := rm
+endif
 ifndef DESTDIR
 DESTDIR := /
 endif
@@ -36,7 +39,13 @@ clean:
 
 .PHONY: install
 install:
+	@for prog in ${EXCLUDE_PROGS}; do \
+	  mv bin/$$prog /tmp; \
+	done
 	install -m 777 bin/* ${DESTDIR}usr/local/bin
+	@for prog in ${EXCLUDE_PROGS}; do \
+	  mv /tmp/$$prog bin; \
+	done
 
 .PHONY: help
 help:
