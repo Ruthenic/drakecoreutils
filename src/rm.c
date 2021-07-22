@@ -42,7 +42,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-int removeFileOrDirectory(char *path, bool recursive, bool force) {
+int removeFileOrDirectory(char *path, bool recursive, bool force,
+                          bool followSymlink) {
   if (isDirectory(path)) {
     if (recursive == true) {
       DIR *dirp;
@@ -55,10 +56,16 @@ int removeFileOrDirectory(char *path, bool recursive, bool force) {
             fullname = malloc(strlen(dp->d_name) + strlen(path) + 2);
             sprintf(fullname, "%s/%s", path, dp->d_name);
             // printf("%s\n", dp->d_name);
-            if (!isDirectory(fullname)) {
+            if (isSymlink(fullname) && followSymlink == true) {
+              char *buf = malloc(1024);
+              readlink(path, buf, sizeof(buf));
+              removeFileOrDirectory(buf, recursive, force, followSymlink);
+              unlink(path);
+            } else if (isRegularFile(fullname) ||
+                       (followSymlink == false && isSymlink(fullname))) {
               unlink(fullname);
-            } else {
-              removeFileOrDirectory(fullname, recursive, force);
+            } else if (isDirectory(fullname) && recursive) {
+              removeFileOrDirectory(fullname, recursive, force, followSymlink);
             }
             free(fullname);
             if (errno != 0) {
@@ -91,7 +98,14 @@ int removeFileOrDirectory(char *path, bool recursive, bool force) {
       return errno;
     }
   } else {
-    unlink(path);
+    if (isRegularFile(path) || followSymlink == false) {
+      unlink(path);
+    } else if (isSymlink(path) && followSymlink == true) {
+      char *buf = malloc(1024);
+      readlink(path, buf, sizeof(buf));
+      removeFileOrDirectory(buf, recursive, force, followSymlink);
+      unlink(path);
+    }
     if (errno == 0) {
       return 0;
     } else if (errno == EACCES || errno == EPERM) {
@@ -107,6 +121,7 @@ int removeFileOrDirectory(char *path, bool recursive, bool force) {
 int main(int argc, char **argv) {
   bool recursive = false;
   bool force = false;
+  bool followSymlink = false;
   char *path;
   for (int i = 1; i < argc; i++) {
     char *arg = argv[i];
@@ -117,11 +132,14 @@ int main(int argc, char **argv) {
           "Drake's Epic Coreutils (working title) " DRAKECU_VERSION "\n"
           "rm - removes files and directories.\n"
           "available arguments:\n"
-          "	--help:          show this help message\n"
-          "	--version:       show the version of the program\n"
-          "	--recursive, -r: recursively delete files inside directories.\n"
+          "	--help:                show this help message\n"
+          "	--version:             show the version of the program\n"
+          "	--recursive, -r:       recursively delete files inside "
+          "directories.\n"
+          "	--follow-symlink, -s: follow symlinks and delete the files "
+          "inside of them.\n"
           "usage:\n"
-          "	rm -{r} [long options] [file/directory]";
+          "	rm -{r,s} [long options] [file/directory]";
       printf("%s\n", help);
       return 0;
     } else if (!strcmp(arg, "--version")) {
@@ -134,16 +152,20 @@ int main(int argc, char **argv) {
       // why not use `rm -r`
       // this might just be a placebo/compatibility thing atm, lol
       force = true;
+    } else if (!strcmp(arg, "--follow-symlink")) {
+      followSymlink = true;
     } else if (startsWithChar(arg, '-')) {
       for (int i = 1; i < (int)strlen(arg); i++) {
         if (arg[i] == 'r') {
           recursive = true;
         } else if (arg[i] == 'f') {
           force = true;
+        } else if (arg[i] == 's') {
+          followSymlink = true;
         }
       }
     } else {
-      removeFileOrDirectory(arg, recursive, force);
+      removeFileOrDirectory(arg, recursive, force, followSymlink);
     }
   }
 }
