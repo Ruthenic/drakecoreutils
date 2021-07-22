@@ -10,7 +10,7 @@ CC_FLAGS :=
 endif
 CC_FLAGS := -Ilib ${CC_FLAGS} 
 ifndef PROGS
-PROGS := arch basename cat ls pwd uname whoami yes
+PROGS := arch basename cat ls pwd rm uname whoami yes
 endif
 ifndef DESTDIR
 DESTDIR := /
