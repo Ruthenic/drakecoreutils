@@ -1,4 +1,5 @@
 #include <limits.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,6 +39,24 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+static int concatFileToStdoutWithOptions(char *file, bool showLineEnds) {
+  FILE *fp;
+  fp = fopen(file, "r");
+  if (fp == NULL) {
+    printf("failed to open '%s'. perhaps the path doesn't exist?\n", file);
+    exit(1);
+  }
+  char *contents = malloc(2);
+  while (fgets(contents, 2, fp) != NULL) {
+    if (showLineEnds == true && contents[0] == '\n') {
+      printf("$");
+    }
+    printf("%s", contents);
+  }
+  free(contents);
+  return 0;
+}
+
 int main(int argc, char **argv) {
   if (argc == 1) {
     char ch;
@@ -46,6 +65,7 @@ int main(int argc, char **argv) {
     }
     return 0;
   } else {
+    bool showLineEnds = false;
     for (int i = 1; i < argc; i++) {
       char *arg = argv[i];
       if (!strcmp(arg, "--help")) {
@@ -55,8 +75,11 @@ int main(int argc, char **argv) {
             "Usage:\n"
             "	cat [options] [FILE]\n"
             "Available arguments:\n"
-            "	--help: show this help message\n"
-            "	--version: show the version of the program\n"
+            "	--help:                            show this help message\n"
+            "	--version:                         show the version of the "
+            "program\n"
+            "	--show-ends, --show-line-ends, -E: print '$' at the end of "
+            "lines.\n"
             "Notes:\n"
             "	If no file is specified, FILE will be stdin.";
         printf("%s\n", help);
@@ -64,8 +87,11 @@ int main(int argc, char **argv) {
       } else if (!strcmp(arg, "--version")) {
         printf("%s\n", DRAKECU_VERSION);
         return 0;
+      } else if (!strcmp(arg, "--show-ends") ||
+                 !strcmp(arg, "--show-line-ends") || !strcmp(arg, "-E")) {
+        showLineEnds = true;
       } else {
-        concatFileToStdout(arg);
+        concatFileToStdoutWithOptions(arg, showLineEnds);
       }
     }
     return 0;
