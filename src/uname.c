@@ -57,6 +57,8 @@ bool startsWithChar(const char *pre, const char str) {
 int main(int argc, char **argv) {
   struct utsname uts;
   uname(&uts);
+  char hostname[HOST_NAME_MAX + 1];
+  gethostname(hostname, HOST_NAME_MAX + 1);
   if (argc == 1) {
     printf("%s\n", uts.sysname);
   } else {
@@ -103,8 +105,6 @@ int main(int argc, char **argv) {
       } else if (!strcmp(arg, "--all")) {
         // equivalent to -shrvm
         printf("%s ", uts.sysname);
-        char hostname[HOST_NAME_MAX + 1];
-        gethostname(hostname, HOST_NAME_MAX + 1);
         printf("%s ", hostname);
         printf("%s ", uts.release);
         printf("%s ", uts.version);
@@ -116,8 +116,6 @@ int main(int argc, char **argv) {
           // printf(info);
           // printf("\n");
           if (info == 'h') {
-            char hostname[HOST_NAME_MAX + 1];
-            gethostname(hostname, HOST_NAME_MAX + 1);
             printf("%s ", hostname);
           }
           if (info == 's') {
