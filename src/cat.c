@@ -54,6 +54,7 @@ static int concatFileToStdoutWithOptions(char *file, bool showLineEnds) {
     printf("%s", contents);
   }
   free(contents);
+  fclose(fp);
   return 0;
 }
 
