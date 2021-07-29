@@ -44,9 +44,12 @@ Usage:
 */
 
 int main(int argc, char **argv) {
-  char *spammy = malloc(sizeof(char) * 16);
+  char *spammy = malloc((sizeof(char) * 16) * 2);
+  int len = 2048; // max length of buffer
+  char buf[len];
+  FILE *stdoutFP = stdout;
   if (argc == 1) {
-    spammy = "y";
+    spammy = "y\n";
   } else {
     for (int i = 1; i < argc; i++) {
       char *arg = argv[i];
@@ -67,13 +70,18 @@ int main(int argc, char **argv) {
         printf("%s\n", DRAKECU_VERSION);
         return 0;
       } else {
-        spammy = realloc(spammy, strlen(arg) + strlen(spammy) + 1);
-        strcat(spammy, arg);
-        strcat(spammy, " ");
+        spammy = realloc(spammy, strlen(arg) + 1);
+        sprintf(spammy, "%s\n", arg);
       }
     }
   }
+  int n = 0;
+  int splen = strlen(spammy);
   do {
-    printf("%s\n", spammy);
+  	sprintf(buf, "%s%s", buf, spammy);
+  	n++;
+  } while (n < len);
+  do {
+   fwrite(buf, sizeof(char), len, stdoutFP);
   } while (1);
 }
