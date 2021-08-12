@@ -37,6 +37,10 @@ debug: all
 clean:
 	@rm -rf bin
 
+.PHONY: strip
+strip:
+	@strip bin/*
+
 .PHONY: install
 install:
 	@for prog in ${EXCLUDE_PROGS}; do \
