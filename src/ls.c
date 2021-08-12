@@ -94,9 +94,9 @@ int main(int argc, char **argv) {
       return 0;
     } else if (!strcmp(arg, "--color") || !strcmp(arg, "--colour")) {
       colour = true;
-    } else if (!strcmp(arg, "-a") || !strcmp(arg, "--all")) {
+    } else if (!strcmp(arg, "--all")) {
       showdot = true;
-    } else if (!strcmp(arg, "-C") || !strcmp(arg, "--columns")) {
+    } else if (!strcmp(arg, "--columns")) {
       maxLen = 0;
     } else if (startsWithStr("--width", arg)) {
       char widthstr[100]; // if someone has a longer width than this, then owo
@@ -107,6 +107,16 @@ int main(int argc, char **argv) {
         n++;
       }
       maxLen = atoi(widthstr);
+    } else if (arg[0] == '-') {
+      for (int i = 1; (size_t)i < strlen(arg); i++) {
+        if (arg[i] == 'c') {
+          colour = true;
+        } else if (arg[i] == 'C') {
+          maxLen = 0;
+        } else if (arg[i] == 'a') {
+          showdot = true;
+        }
+      }
     } else {
       // TODO: interpret absolute *and* relative paths. can't be that hard,
       // right?
