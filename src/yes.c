@@ -78,10 +78,10 @@ int main(int argc, char **argv) {
   int n = 0;
   int splen = strlen(spammy);
   do {
-  	sprintf(buf, "%s%s", buf, spammy);
-  	n++;
+    sprintf(buf, "%s%s", buf, spammy);
+    n++;
   } while (n < len);
   do {
-   fwrite(buf, sizeof(char), len, stdoutFP);
+    fwrite(buf, sizeof(char), len, stdoutFP);
   } while (1);
 }
