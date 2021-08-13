@@ -1,1 +1,0 @@
-- `yes.c` - add changable spammy word
