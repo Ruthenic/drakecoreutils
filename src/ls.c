@@ -58,6 +58,77 @@ static int cmp(const void *a, const void *b) {
   return strcmp(*(char **)a, *(char **)b);
 }
 
+static int listDirs(char *thatpath, bool specpath, bool colour, bool showdot,
+                    int maxLen) {
+  char wd[PATH_MAX];
+  if (specpath == false) {
+    getcwd(wd, sizeof(wd));
+  } else if (specpath == true) {
+    char *e = realpath(thatpath, NULL);
+    if (e == NULL) {
+      printf("couldn't open '%s'. perhaps the path doesn't exist?\n", thatpath);
+      return 1;
+    }
+    strcpy(wd, e);
+    free(e);
+  }
+  // printf(wd);
+  DIR *dirp;
+  struct dirent *dp;
+  dirp = opendir(wd);
+  if (dirp == NULL) {
+    printf("couldn't open '%s'. perhaps the path doesn't exist?\n", wd);
+    return 1;
+  }
+  int relen = sizeof(char);
+  char **words = malloc(relen);
+  int count = 0;
+  while ((dp = readdir(dirp)) != NULL) {
+    char *dirname = dp->d_name;
+    if (!startsWithChar(dirname, '.') || showdot == true) {
+      relen = relen + strlen(dirname) +
+              3; // 3 is so fucking arbitrary, but it works
+      words = realloc(words, relen);
+      words[count] = malloc(strlen(dirname) + 3);
+      words[count] = dirname;
+      count++;
+    }
+  }
+  qsort(words, count - 1, sizeof(words), cmp);
+  char oldwd[PATH_MAX];
+  strcpy(oldwd, wd);
+  int currLen = 0;
+  for (int i = 0; i < count; i++) {
+    currLen += strlen(words[i]);
+    if (currLen >= maxLen) {
+      printf("\n");
+      currLen = 0;
+    }
+    if (colour == false) {
+      printf("%s  ", words[i]);
+    } else {
+      strcpy(wd, oldwd);
+      strcat(wd, "/");
+      strcat(wd, words[i]);
+      // printf(wd);
+      if (isSymlink(wd) == true) {
+        printf(ANSI_GREEN);
+        printf("%s  ", words[i]);
+        printf(ANSI_RESET);
+      } else if (isDirectory(wd) == true) {
+        printf(ANSI_BLUE);
+        printf("%s  ", words[i]);
+        printf(ANSI_RESET);
+      } else {
+        printf("%s  ", words[i]);
+      }
+    }
+  }
+  free(words);
+  printf("\n");
+  return 0;
+}
+
 // lots o' code ~~stolen~~ borrowed from
 // https://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html
 int main(int argc, char **argv) {
@@ -66,11 +137,10 @@ int main(int argc, char **argv) {
   bool showdot = false;
   bool specpath = false;
   int maxLen = 180;
-  char *thatpath;
+  int paths = 0;
+  int relen = 0;
   for (int i = 1; i < argc; i++) {
     char *arg = argv[i];
-    /*printf(arg);
-    printf(" ");*/
     if (!strcmp(arg, "--help")) {
       char *help =
           "Drake's Epic Coreutils (working title) " DRAKECU_VERSION "\n"
@@ -101,110 +171,41 @@ int main(int argc, char **argv) {
       maxLen = 0;
     } else if (startsWithStr("--width", arg)) {
       char widthstr[100]; // if someone has a longer width than this, then owo
-      int i, n;
+      int i2, n;
       n = 0;
-      for (i = 8; (size_t)i < strlen(arg); i++) {
-        widthstr[n] = arg[i];
+      for (i2 = 8; (size_t)i2 < strlen(arg); i2++) {
+        widthstr[n] = arg[i2];
         n++;
       }
       maxLen = atoi(widthstr);
     } else if (arg[0] == '-') {
-      for (int i = 1; (size_t)i < strlen(arg); i++) {
-        if (arg[i] == 'c') {
+      for (int i2 = 1; (size_t)i2 < strlen(arg); i2++) {
+        if (arg[i2] == 'c') {
           colour = true;
-        } else if (arg[i] == 'C') {
+        } else if (arg[i2] == 'C') {
           maxLen = 0;
-        } else if (arg[i] == 'a') {
+        } else if (arg[i2] == 'a') {
           showdot = true;
         }
       }
     } else {
-      // TODO: interpret absolute *and* relative paths. can't be that hard,
-      // right?
       specpath = true;
-      thatpath = arg;
+      printf("%s:\n", arg);
+      listDirs(arg, specpath, colour, showdot, maxLen);
+      /*relen = relen + strlen(arg) + 3;
+      thatpath = realloc(thatpath, relen + 1);
+      thatpath[paths] = malloc(strlen(arg) + 3);
+      thatpath[paths] = arg;
+      paths++;*/
     }
   }
-  char wd[PATH_MAX];
   if (specpath == false) {
-    getcwd(wd, sizeof(wd));
-  } else if (specpath == true) {
-    char *e = realpath(thatpath, NULL);
-    if (e == NULL) {
-      printf("couldn't open '%s'. perhaps the path doesn't exist?\n", thatpath);
-      return 1;
-    }
-    strcpy(wd, e);
-    free(e);
+    listDirs(NULL, specpath, colour, showdot, maxLen);
   }
-  // printf(wd);
-  DIR *dirp;
-  struct dirent *dp;
-  dirp = opendir(wd);
-  if (dirp == NULL) {
-    printf("couldn't open '%s'. perhaps the path doesn't exist?\n", wd);
-    return 1;
+  /*for (int i3 = 0; i3 < paths; i3++) {
+    printf("%s:\n", thatpath[i3]);
+        listDirs(thatpath[i3], specpath, colour, showdot, maxLen);
   }
-  int len = sizeof(char);
-  char *out = malloc(len);
-  out = NULL;
-  dp = readdir(dirp);
-  do {
-    char *dirname = dp->d_name;
-    if (!startsWithChar(dirname, '.') || showdot == true) {
-      len += 1 + strlen(dirname) + strlen("§");
-      out = realloc(out, len);
-      strcat(out, dirname);
-      strcat(out, "§");
-    }
-  } while ((dp = readdir(dirp)) != NULL);
-  if (out == NULL) {
-    // printf(" \n");
-    // imo this shouldn't be commented out for consistency with the rest of the
-    // program, but gnu does it so so do we (english:tm:)
-    return 0;
-  }
-  free(dirp);
-  char *word, *words[strlen(out) / 2 + 1];
-  int i, n;
-  i = 0;
-  word = strtok(out, "§");
-  while (word != NULL) {
-    words[i++] = word;
-    word = strtok(NULL, "§");
-  }
-  n = i;
-  qsort(words, n, sizeof(*words), cmp);
-  char oldwd[PATH_MAX];
-  strcpy(oldwd, wd);
-  int currLen = 0;
-  for (i = 0; i < n; i++) {
-    currLen += strlen(words[i]);
-    if (currLen >= maxLen) {
-      printf("\n");
-      currLen = 0;
-    }
-    if (colour == false) {
-      printf("%s  ", words[i]);
-    } else {
-      strcpy(wd, oldwd);
-      strcat(wd, "/");
-      strcat(wd, words[i]);
-      // printf(wd);
-      if (isSymlink(wd) == true) {
-        printf(ANSI_GREEN);
-        printf("%s  ", words[i]);
-        printf(ANSI_RESET);
-      } else if (isDirectory(wd) == true) {
-        printf(ANSI_BLUE);
-        printf("%s  ", words[i]);
-        printf(ANSI_RESET);
-      } else {
-        printf("%s  ", words[i]);
-      }
-    }
-  }
-  free(out);
-  printf("\n");
+  free(thatpath);*/
   return 0;
 }
