@@ -94,6 +94,8 @@ static int listDirs(char *thatpath, bool specpath, bool colour, bool showdot,
       count++;
     }
   }
+  free(dirp);
+  free(dp);
   qsort(words, count - 1, sizeof(words), cmp);
   char oldwd[PATH_MAX];
   strcpy(oldwd, wd);
