@@ -114,13 +114,19 @@ static int listDirs(char *thatpath, bool specpath, bool colour, bool showdot,
       strcat(wd, words[i]);
       // printf(wd);
       if (isSymlink(wd) == true) {
-        printf(ANSI_GREEN);
+        printf(ANSI_PURPLE);
         printf("%s  ", words[i]);
         printf(ANSI_RESET);
       } else if (isDirectory(wd) == true) {
         printf(ANSI_BLUE);
         printf("%s  ", words[i]);
         printf(ANSI_RESET);
+      } else if (isExecutable(wd) == true) {
+      	printf(ANSI_GREEN);
+      	printf(ANSI_BOLD);
+      	printf("%s  ", words[i]);
+      	printf(ANSI_RESET);
+      	printf(ANSI_RESET);
       } else {
         printf("%s  ", words[i]);
       }

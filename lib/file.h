@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+#define S_ISEXE(mode) (mode & S_IXUSR)
+
 /*
 BSD 3-Clause License
 
@@ -50,6 +52,12 @@ static _Bool isSymlink(const char *path) {
   struct stat path_stat;
   lstat(path, &path_stat);
   return S_ISLNK(path_stat.st_mode);
+}
+
+static _Bool isExecutable(const char *path) {
+  struct stat path_stat;
+  lstat(path, &path_stat);
+  return S_ISEXE(path_stat.st_mode);
 }
 
 static int concatFileToStdout(char *file) {
