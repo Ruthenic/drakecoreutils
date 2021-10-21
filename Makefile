@@ -22,7 +22,7 @@ debug: all
 clean:
 	@rm -rf bin
 
-build-release: CC_FLAGS:=-O3
+build-release: CC_FLAGS:=-O3 ${CC_FLAGS}
 build-release: all
 build-release:
 	@strip bin/*
