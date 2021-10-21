@@ -1,18 +1,20 @@
+VERSION = "\"0.3.2\\n© Ruthenic, 2021\""
+
 CC ?= gcc
 target ?= $(shell ${CC} -dumpmachine)
 CC_FLAGS ?=
+CC_FLAGS := -Ilib
 PROGS ?= arch basename cat chroot cp ls pwd rm uname whoami yes
 EXCLUDE_PROGS ?= rm
 DESTDIR ?= /
 
 .PHONY: all debug clean build-release install
-all:
-	@mkdir -p bin
+all: $(shell mkdir -p bin)
 all: ${PROGS}
 
 ${PROGS}:
 	@echo Building $@..
-	@${CC} -o bin/$@ -DDRAKECU_VERSION=\'0.3.2\\n© Ruthenic, 2021\'
+	@${CC} -o bin/$@ -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
 
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
 debug: all
