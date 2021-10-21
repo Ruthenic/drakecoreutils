@@ -1,47 +1,31 @@
-VERSION="0.3.2\\nCopyright (c) 2021, Ruthenic. Licensed under BSD-3-Clause."
-ifndef CC
-CC = gcc
-endif
-target := $(shell ${CC} -dumpmachine)
-ifndef CC_FLAGS
-#guess we gotta define this if it no exist, \
-    but imagine not needing custom cxx flags
-CC_FLAGS :=
-endif
-CC_FLAGS := -Ilib ${CC_FLAGS} 
-ifndef PROGS
-PROGS := arch basename cat chroot cp ls pwd rm uname whoami yes
-endif
-ifndef EXCLUDE_PROGS
-EXCLUDE_PROGS := rm
-endif
-ifndef DESTDIR
-DESTDIR := /
-endif
+CC ?= gcc
+target ?= $(shell ${CC} -dumpmachine)
+CC_FLAGS ?=
+PROGS ?= arch basename cat chroot cp ls pwd rm uname whoami yes
+EXCLUDE_PROGS ?= rm
+DESTDIR ?= /
 
-.PHONY: all
-.DEFAULT: all
+all:
+	@mkdir -p bin
 all: ${PROGS}
 
-${PROGS}: %: src/%.c
-	@#for some idiotic reason, i can't define 2 `all` targets, one of which can make this directory
-	@mkdir -p bin
-	@echo Building $@.. 
-	@${CC} -o bin/$@ -DDRAKECU_VERSION=\"${VERSION}\" ${CC_FLAGS} $<
+${PROGS}:
+	@echo Building $@..
+	@${CC} -o bin/$@ -DDRAKECU_VERSION=\'0.3.2\\n© Ruthenic, 2021\'
 
-.PHONY: debug
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
 debug: all
 
-.PHONY: clean
 clean:
 	@rm -rf bin
 
-.PHONY: strip
-strip:
+build-release: CC_FLAGS:=-O3
+build-release: all
+build-release:
 	@strip bin/*
+	tar -czf release.tar.gz bin/*
 
-.PHONY: install
+#TODO: fix this, this is terrible oh god help me
 install:
 	@for prog in ${EXCLUDE_PROGS}; do \
 	  mv bin/$$prog /tmp; \
@@ -50,11 +34,3 @@ install:
 	@for prog in ${EXCLUDE_PROGS}; do \
 	  mv /tmp/$$prog bin; \
 	done
-
-.PHONY: help
-help:
-	@echo "Drake's Epic Coreutils Makefile Help Page™"
-	@echo 'make' - build normal version.
-	@echo 'make debug' - build verbosly, and with \`-g -O0\` for the lowest amount of compiler optimization, so that valgrind and such can report line numbers, and have more information in general.
-	@echo 'make clean' - removes binaries.
-	@echo 'make help' - display this help message.
