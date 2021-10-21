@@ -14,7 +14,7 @@ all: ${PROGS}
 
 ${PROGS}:
 	@echo Building $@..
-	@${CC} -o bin/$@ -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
+	@${CC} -c -o bin/$@.o -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
 
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
 debug: all
