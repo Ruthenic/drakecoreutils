@@ -1,7 +1,7 @@
-#include <pwd.h>
+#include <libgen.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 /*
 BSD 3-Clause License
@@ -35,43 +35,50 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*
-whoami - prints the working user's username (unless --uid is specified)
-Available arguments:
-        --help: show this help message
-        --version: show the version of the program (WIP)
-        --uid: print the users numeric UID, instead of username
-*/
+int matchExec(char *name, int argc, char *argv[]) {
+	if (!strcmp(name,"arch")) {
+		arch(argc, argv);
+	}
+	if (!strcmp(name,"basename")) {
+		bn(argc, argv);
+	}
+	if (!strcmp(name,"cat")) {
+		cat(argc, argv);
+	}
+	if (!strcmp(name,"chroot")) {
+		chr(argc, argv);
+	}
+	if (!strcmp(name,"cp")) {
+		cp(argc, argv);
+	}
+	if (!strcmp(name,"ls")) {
+		ls(argc, argv);
+	}
+	if (!strcmp(name,"pwd")) {
+		pwd(argc, argv);
+	}
+	if (!strcmp(name,"rm")) {
+		rm(argc, argv);
+	}
+	if (!strcmp(name,"uname")) {
+		un(argc, argv);
+	}
+	if (!strcmp(name,"whoami")) {
+		whoami(argc, argv);
+	}
+	if (!strcmp(name,"yes")) {
+		yes(argc, argv);
+	}
+	if (!strcmp(name,"dbox")) {
+		char **newArgv = argv + 1;
+		matchExec(newArgv[0], argc-1, newArgv);
+	}
+	return 0; //TODO: return return of exec files
+}
 
-int whoami(int argc, char **argv) {
-  uid_t userid = geteuid();
-  char *username = getpwuid(userid)->pw_name;
-  if (argc == 1) {
-    printf("%s\n", username);
-    return 0;
-  } else {
-    for (int i = 0; i < argc; i++) {
-      char *arg = argv[i];
-      /*printf(arg);
-      printf(" ");*/
-      if (!strcmp(arg, "--help")) {
-        char *help =
-            "Drake's Epic Coreutils (working title) " DRAKECU_VERSION "\n"
-            "whoami - prints the working user's username (unless --uid is "
-            "specified)\n"
-            "Available arguments:\n"
-            "	--help: show this help message\n"
-            "	--version: show the version of the program\n"
-            "	--uid: print the users numeric UID, instead of username";
-        printf("%s\n", help);
-        return 0;
-      } else if (!strcmp(arg, "--version")) {
-        printf("%s\n", DRAKECU_VERSION);
-        return 0;
-      } else if (!strcmp(arg, "--uid")) {
-        printf("%d\n", (int)userid);
-        return 0;
-      }
-    }
-  }
+int main(int argc, char *argv[])
+{
+	char *linkName = basename(argv[0]);
+	matchExec(linkName, argc, argv);
+	return 0;
 }

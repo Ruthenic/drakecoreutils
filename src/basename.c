@@ -44,7 +44,7 @@ Available arguments:
         --uid: print the users numeric UID, instead of username
 */
 
-int main(int argc, char **argv) {
+int bn(int argc, char **argv) {
   char *wd;
   char *upname = NULL;
   if (argc == 1) {

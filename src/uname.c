@@ -54,7 +54,7 @@ bool startsWithChar(const char *pre, const char str) {
   return index == 0;
 }
 
-int main(int argc, char **argv) {
+int un(int argc, char **argv) {
   struct utsname uts;
   uname(&uts);
   char hostname[HOST_NAME_MAX + 1];

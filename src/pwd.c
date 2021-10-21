@@ -43,7 +43,7 @@ Available arguments:
         --uid: print the users numeric UID, instead of username
 */
 
-int main(int argc, char **argv) {
+int pwd(int argc, char **argv) {
   char wd[PATH_MAX];
   getcwd(wd, sizeof(wd));
   if (argc == 1) {

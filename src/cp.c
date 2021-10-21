@@ -59,7 +59,7 @@ static int copyFile(const char *src, const char *dst) {
   return 0;
 }
 
-int main(int argc, char **argv) {
+int cp(int argc, char **argv) {
   int isDst = 0;
   char *src;
   char *dst;

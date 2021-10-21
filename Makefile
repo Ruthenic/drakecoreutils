@@ -11,10 +11,14 @@ DESTDIR ?= /
 .PHONY: all debug clean build-release install
 all: $(shell mkdir -p bin)
 all: ${PROGS}
+all: dbox
 
 ${PROGS}:
 	@echo Building $@..
-	@${CC} -o bin/$@ -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
+	@${CC} -c -o bin/$@.o -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
+
+dbox:
+	@${CC} -o bin/dbox src/dbox.c $(wildcard bin/*.o)
 
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
 debug: all
@@ -28,13 +32,11 @@ build-release:
 	@strip bin/*
 	tar -czf release.tar.gz bin/*
 
-#TODO: fix this, this is terrible oh god help me
 install:
-	@for prog in ${EXCLUDE_PROGS}; do \
-	  mv bin/$$prog /tmp; \
+	@install -m 777 bin/dbox ${DESTDIR}/usr/local/bin 
+	@for prog in ${PROGS}; do \
+		ln ${DESTDIR}/usr/local/bin/dbox ${DESTDIR}/usr/local/bin/$$prog; \
 	done
-	install -m 777 bin/* ${DESTDIR}usr/local/bin
 	@for prog in ${EXCLUDE_PROGS}; do \
-	  mv /tmp/$$prog bin; \
+		rm ${DESTDIR}/usr/local/bin/$$prog; \
 	done
-

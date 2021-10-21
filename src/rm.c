@@ -118,7 +118,7 @@ int removeFileOrDirectory(char *path, bool recursive, bool force,
   }
 }
 
-int main(int argc, char **argv) {
+int rm(int argc, char **argv) {
   bool recursive = false;
   bool force = false;
   bool followSymlink = false;

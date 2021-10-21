@@ -41,7 +41,7 @@ Available arguments:
         --version: show the version of the program (WIP)
 */
 
-int main(int argc, char **argv) {
+int arch(int argc, char **argv) {
   if (argc == 1) {
     struct utsname e;
     uname(&e);
