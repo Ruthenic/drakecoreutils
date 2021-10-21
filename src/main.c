@@ -79,8 +79,6 @@ int matchExec(char *name, int argc, char *argv[]) {
 int main(int argc, char *argv[])
 {
 	char *linkName = basename(argv[0]);
-	printf("%s\n", linkName);
-	printf("Executing %s...\n", linkName);
 	matchExec(linkName, argc, argv);
 	return 0;
 }
