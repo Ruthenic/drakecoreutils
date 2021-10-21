@@ -11,14 +11,14 @@ DESTDIR ?= /
 .PHONY: all debug clean build-release install
 all: $(shell mkdir -p bin)
 all: ${PROGS}
-all: main.c
+all: dbox
 
 ${PROGS}:
 	@echo Building $@..
 	@${CC} -c -o bin/$@.o -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
 
-main.c:
-	@${CC} -o bin/dbox src/main.c $(wildcard bin/*.o)
+dbox:
+	@${CC} -o bin/dbox src/dbox.c $(wildcard bin/*.o)
 
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
 debug: all
