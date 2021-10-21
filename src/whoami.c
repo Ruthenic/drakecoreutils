@@ -43,7 +43,7 @@ Available arguments:
         --uid: print the users numeric UID, instead of username
 */
 
-int main(int argc, char **argv) {
+int whoami(int argc, char **argv) {
   uid_t userid = geteuid();
   char *username = getpwuid(userid)->pw_name;
   if (argc == 1) {

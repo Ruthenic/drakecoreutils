@@ -139,7 +139,7 @@ static int listDirs(char *thatpath, bool specpath, bool colour, bool showdot,
 
 // lots o' code ~~stolen~~ borrowed from
 // https://pubs.opengroup.org/onlinepubs/9699919799/functions/readdir.html
-int main(int argc, char **argv) {
+int ls(int argc, char **argv) {
   // define default options
   bool colour = false;
   bool showdot = false;

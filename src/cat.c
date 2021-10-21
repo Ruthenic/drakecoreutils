@@ -58,7 +58,7 @@ static int concatFileToStdoutWithOptions(char *file, bool showLineEnds) {
   return 0;
 }
 
-int main(int argc, char **argv) {
+int cat(int argc, char **argv) {
   if (argc == 1) {
     char ch;
     while (read(STDIN_FILENO, &ch, 1) > 0) {

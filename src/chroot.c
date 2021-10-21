@@ -61,7 +61,7 @@ int runChroot(char *executable, char *directory) {
   return 0;
 }
 
-int main(int argc, char *argv[]) {
+int chr(int argc, char *argv[]) {
   int i;
   char *executable = "/bin/sh";
   char *directory = argv[argc - 1];

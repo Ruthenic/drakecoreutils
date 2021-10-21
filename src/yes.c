@@ -43,7 +43,7 @@ Usage:
         yes [--help] [--version] [message]
 */
 
-int main(int argc, char **argv) {
+int yes(int argc, char **argv) {
   char *spammy = malloc((sizeof(char) * 16) * 2);
   int len = 2048; // max length of buffer
   char buf[len];
