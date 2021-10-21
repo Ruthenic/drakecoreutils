@@ -16,6 +16,9 @@ ${PROGS}:
 	@echo Building $@..
 	@${CC} -c -o bin/$@.o -DDRAKECU_VERSION=${VERSION} ${CC_FLAGS} src/$@.c
 
+main.c:
+	@${CC} -o bin/dbox src/main.c $(wildcard bin/*.o)
+
 debug: CC_FLAGS:=-g -O0 -v ${CC_FLAGS}
 debug: all
 
