@@ -8,3 +8,4 @@ the best coreutils since toybox
 #### todo
 - fix memory issues in everything (but `ls` specifically)
 - proper formatting in `ls`
+- allow a way to manually use multi-binary mode?
