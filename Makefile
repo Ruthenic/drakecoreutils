@@ -5,6 +5,7 @@ PROGS ?= arch basename cat chroot cp ls pwd rm uname whoami yes
 EXCLUDE_PROGS ?= rm
 DESTDIR ?= /
 
+.PHONY: all debug clean build-release install
 all:
 	@mkdir -p bin
 all: ${PROGS}
@@ -34,3 +35,4 @@ install:
 	@for prog in ${EXCLUDE_PROGS}; do \
 	  mv /tmp/$$prog bin; \
 	done
+
