@@ -32,13 +32,11 @@ build-release:
 	@strip bin/*
 	tar -czf release.tar.gz bin/*
 
-#TODO: fix this, this is terrible oh god help me
 install:
-	@for prog in ${EXCLUDE_PROGS}; do \
-	  mv bin/$$prog /tmp; \
+	@install -m 777 bin/dbox ${DESTDIR}/usr/local/bin 
+	@for prog in ${PROGS}; do \
+		ln ${DESTDIR}/usr/local/bin/dbox ${DESTDIR}/usr/local/bin/$$prog; \
 	done
-	install -m 777 bin/* ${DESTDIR}usr/local/bin
 	@for prog in ${EXCLUDE_PROGS}; do \
-	  mv /tmp/$$prog bin; \
+		rm ${DESTDIR}/usr/local/bin/$$prog; \
 	done
-
