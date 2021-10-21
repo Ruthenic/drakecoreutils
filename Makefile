@@ -11,6 +11,7 @@ DESTDIR ?= /
 .PHONY: all debug clean build-release install
 all: $(shell mkdir -p bin)
 all: ${PROGS}
+all: main.c
 
 ${PROGS}:
 	@echo Building $@..
