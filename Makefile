@@ -37,6 +37,7 @@ install:
 	@for prog in ${PROGS}; do \
 		ln ${DESTDIR}/usr/local/bin/dbox ${DESTDIR}/usr/local/bin/$$prog; \
 	done
+	#I sincerly hope that my `rm` is stable enough to do this.
 	@for prog in ${EXCLUDE_PROGS}; do \
 		rm ${DESTDIR}/usr/local/bin/$$prog; \
 	done
